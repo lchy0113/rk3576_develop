@@ -7,14 +7,14 @@ REGULATOR
 <br/>
 <hr>
 
-# 🔋 RK3576 POC Power Summary
+# RK3576 POC Power Summary
 
 <br/>
 <br/>
 <br/>
 <hr>
 
-## 1️⃣ Power Supply Overview
+## 1. Power Supply Overview
 
 | 구분 | 전원명 | 전압 (V) | 공급원 | 주요 용도 / 대상 | 상태 | 비고 |
 |------|---------|-----------|--------|------------------|--------|------|
@@ -42,10 +42,97 @@ REGULATOR
 
 <br/>
 <br/>
+<hr>
+
+### 1.1. 입력 전원(Input Stage)
+
+ - VCC12V_DCIN : 외부 어댑터 입력 전원. 전체 보드의 전원 공급 시작점. PMIC와 외부 DCDC 변환기로 분배 됨.   
+ - VCC5V0_SYS_S5 : 12V를 변환해 항상 켜져 잇는 시스템 전원. PMIC, USB 5V, LED, 팬, RTC 회로 등에 공급 됨.  
+ - VCC5V0_DEVICE_S0 : USB Host 및 주변장치용 5V 전원. 시스템이 S0(Active) 상태일 때만 활성화됨. 
+
+<br/>
 <br/>
 <hr>
 
-## 2️⃣ IO Power Domain Map
+### 1.2. PMIC 기반 주요 전원(Core & Subsystem)
+
+ - VDD_CPU_BIG_S0 : 고성능 CPU 코어용. DVFS(동적 전압조절) 지원.
+ - VDD_CPU_LIT_S0 : 저전력 CPU 코어용. DVFS 지원.
+ - VDD_GPU_S0 : 그래픽 블록용. DVFS로 클럭/전압 동기 조절.
+ - VDD_NPU_S0 : AI 연산 전용 NPU 블록용.
+ - VDD_LOGIC_MEM_S0 : 내부 버스, 캐시, 컨트롤러 구동용 기본 전원
+ - VCC1V2_NLDO_S3 : IO PHY 아날로그 회로용. 슬립 시 유지 필요.
+ - VCC1V8_S3 : SoC와 외부장치의 신호 레벨 기준.
+ - VCC3V3_SYS_S3 : 대다수 외부 IO 및 보조 회로 전원.
+
+<br/>
+<br/>
+<hr>
+
+### 1.3. 메모리 전원(DDR / LPDDR4X) 
+
+ - VDD_DDR_S0 : DDR Core 구동 전원. DRAM 내부 로직이 동작하는 핵심 전압.
+ - VDDQ_DDR_S0 : DDR I/O 신호 레벨용 전원. (DQ, DQS, ADDR, CMD 라인 전송 시 사용)
+ - VPP_DDR_S0 : DDR ACT 동작 전원. Bank Activate 시 내부 고전압 트랜지스터 구동용.
+ - VDDA_DDR_PLL_S0 : DDR PHY PLL용 전원. 클럭 동기화 회로용 아날로그 레일.
+
+<br/>
+<br/>
+<hr>
+
+### 1.4. 아날로그 / 비디오 / 센서 전원  
+
+ - VDDA_0V75_S0 : HDMI / MIPI PHY 내부 아날로그 회로용
+ - VDDA_1V8_S0 : HDMI PHY, Camera MIPI 회로용
+ - VCCA_1V8_S0 : Analog Codec, Audio ADC/DAC, Sensor 전원
+ - VCCA_3V3_S0 : 고전압 Analog 회로용 (AMP, ADC)
+ - VCCIO_SD_S0 : 또는 1.8V	SD/MMC IO 전압 (카드 타입에 따라 선택)
+
+<br/>
+<br/>
+<hr>
+
+### 1.5. 외부 주변기기 및 IO 전원 
+
+ - VCCIO_CAM_S0 : MIPI CSI/DSI 카메라 IO
+ - VCCIO_UART_S0 : UART 통신
+ - VCCIO_GPIO_S0 : 일반 GPIO IO
+ - VCCIO_SD_S0 : / SD 카드 신호 IO
+ - VCCIO_AUDIO_S0 : Audio Codec I2S / I2C 통신선
+
+<br/>
+<br/>
+<hr>
+
+### 1.6. Power Sequence 순서 요약   
+
+| 단계     | 주요 전원                          | 동작 내용                  |
+| ------ | --------------------------------- | ------------------------ |
+| Step 0 | VCC12V_DCIN, VCC5V0_SYS_S5        | 외부 입력 및 메인 5V 기동     |
+| Step 1 | VCC3V3_SYS_S3, VCC1V8_S3          | IO / Logic 초기화          |
+| Step 2 | VDD_LOGIC_MEM_S0, CPU/GPU/NPU     | SoC 내부 블록 전원 인가      |
+| Step 3 | DDR 관련 전원 (VDD, VDDQ, VPP, PLL) | 메모리 초기화               |
+| Step 4 | Analog / PHY 전원                  | MIPI, HDMI, PCIe PHY 준비 |
+| Step 5 | RESET_L 해제                       | 부팅 시작 (BootROM 동작)    |
+
+<br/>
+<br/>
+<hr>
+
+### 1.7. S-State 동작 개념
+
+| 상태 | 의미	         | 유지 전원                           |
+| --- | ------------ | --------------------------------- |
+| S0  |	Active Mode  | 모든 전원 ON                        |
+| S3  |	Suspend Mode |	1.8V / 3.3V / 1.2V IO만 유지       |
+| S5  |	Power Off    |	최소 전원 (RTC, PMIC, 5V_SYS)만 유지 |
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## 2. IO Power Domain Map
 
 | IO Domain | 공급 전원 | 동작 전압 | 비고 |
 |------------|------------|------------|------|
@@ -62,7 +149,7 @@ REGULATOR
 <br/>
 <hr>
 
-## 3️⃣ Power Sequence
+## 3. Power Sequence
 
 | 순서 | 주요 전원 | 설명 |
 |------|-------------|------|
@@ -77,7 +164,7 @@ REGULATOR
 <br/>
 <hr>
 
-## 4️⃣ Note
+## 4. Note
 - **S0:** Power Off during sleep  
 - **S3:** Power 유지 during sleep  
 - **S5:** Always On  
@@ -91,14 +178,14 @@ REGULATOR
 <br/>
 <hr>
 
-# ⚡ RK3576 EVB Power Summary
+# RK3576 EVB Power Summary
 
 <br/>
 <br/>
 <br/>
 <hr>
 
-## 1️⃣ Power Supply Overview
+## 1. Power Supply Overview
 
 | 구분 | 전원명 | 전압 (V) | 공급원 | 주요 용도 / 대상 | 상태 | 비고 |
 |------|---------|-----------|--------|------------------|--------|------|
@@ -128,7 +215,7 @@ REGULATOR
 <br/>
 <hr>
 
-## 2️⃣ IO Power Domain Map
+## 2. IO Power Domain Map
 
 | IO Domain | 공급 전원 | 동작 전압 | 설명 |
 |------------|------------|------------|------|
@@ -145,7 +232,7 @@ REGULATOR
 <br/>
 <hr>
 
-## 3️⃣ Power Sequence (Timing Slot)
+## 3. Power Sequence (Timing Slot)
 
 | Slot | 주요 전원 | 설명 |
 |------|------------|------|
@@ -160,7 +247,7 @@ REGULATOR
 <br/>
 <hr>
 
-## 4️⃣ Note
+## 4. Note
 - **Suffix 의미**
   - S0: Power off during sleep
   - S3: Keep on during sleep
