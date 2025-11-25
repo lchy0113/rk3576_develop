@@ -117,6 +117,28 @@ Byte Lane 1
 <br/>
 <hr>
 
+# Eye Pattern 구성 요소
+
+![Rockchip DDR RX Eye Scan 껼과(ASCII Eye Map)](./images/MEMORY_VERIFY-01.png)
+
+ 각 행은 다음을 의미함.  
+
+ 1) Vref Sweep  
+ DDR 컨트롤러는 **RX Vref 값(VrefDQ)을 여러 단계**(예: 13% ~ 63%) 로 변경하면서 각  
+ Vref 에서 "DQㅓ 신호가 정상적으로 읽히는 지점" 을 스캔.  
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
 # ETC 
 
  - DQ : 
