@@ -392,3 +392,19 @@ Full-load power
 
 
 
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
+# PPT
+
+🎤 RK3576 POC – BSP Bring-up 발표 스토리
+
+<br/>
+<br/>
+<br/>
+<hr>
