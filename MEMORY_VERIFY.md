@@ -126,9 +126,53 @@ Byte Lane 1
  1) Vref Sweep  
  DDR 컨트롤러는 **RX Vref 값(VrefDQ)을 여러 단계**(예: 13% ~ 63%) 로 변경하면서 각  
  Vref 에서 "DQㅓ 신호가 정상적으로 읽히는 지점" 을 스캔.  
+  
+ → 이게 왼쪽의 vref xx.x% 컬럼.  
 
+ 2) DQS Delay Sweep  
+ 각 Vref 마다  
+ DQS Delay (DQ-DQS Align)를 좌에서 우로 Sweep 한다.  
 
+ → Sweep 동안 오류가 없으면 * 로 표시  
+ → 오류가 발생하는 구간은 - 로 표시  
 
+ 즉,  
+```bash
+***************|***************
+```
+
+ 의미는, 
+ - 왼쪽 *************** = DQS Delay를 왼쪽으로 이동해도 정상적으로 읽힘
+ - |는 중앙 기준점
+ - 오른쪽 *************** = DQS를 오른쪽으로 이동해도 정상 읽힘
+
+ → 이 전체 영역이 바로 Eye Opening 이다.
+
+ 3) 우측 숫자  
+ 예:
+
+```bash
+[42  ~  -3 (87)]
+
+```
+
+ 구성,  
+| 항목                  | 의미                                          |
+| --------------------- | --------------------------------------------- |
+| **Left Margin = 42**  | DQS Delay를 왼쪽으로 이동해도 정상 읽히는 폭  |
+| **Right Margin = -3** | DQS Delay를 오른쪽으로 이동해도 정상 읽히는 폭|
+| **Total Width = 87**  | Eye Opening(정상 읽기 가능한 영역 총 폭)      |
+
+ 이 수치는 실제 fs 단위가 아니라 ROckchip내부의 **스텝 단위(step index)**. 
+
+   
+✔ 정리 – 업계에서 해석하는 방식 그대로 설명
+  
+ - Channel 0, CS0에 대해 DDR 컨트롤러가 Vref값을 바꾸어가며 RX 타이밍 품질을 평가  
+ - 각 Vref에서 DQS Delay를 좌→우로 Sweep하면서 정상/오류 영역을 ASCII로 표시  
+ - 가운데가 넓게 열리면 좋은 신호  
+ - max_eye vref는 가장 안정적인 Vref 포인트  
+ - 우측의 [Left ~ Right (Total)]은 Eye Margin(눈 크기)을 나타내는 핵심 수치  
 
 
 
