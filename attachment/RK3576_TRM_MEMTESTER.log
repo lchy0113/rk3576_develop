@@ -1,0 +1,173 @@
+
+[2025-11-18 22:14:29] => memtester 0x49400000 0x722F9000
+[2025-11-18 22:14:36] memtester version 4.3.0 (32-bit)
+[2025-11-18 22:14:36] Copyright (C) 2001-2012 Charles Cazabon.
+[2025-11-18 22:14:36] Licensed under the GNU General Public License version 2 (only).
+[2025-11-18 22:14:36]
+[2025-11-18 22:14:36] available memory for test:
+[2025-11-18 22:14:36]   start            end    length
+[2025-11-18 22:14:36]   0x40200000 - 0x48400000 0x08200000
+[2025-11-18 22:14:36]   0x49400000 - 0xbb6f9000 0x722f9000
+[2025-11-18 22:14:36] testing:0x49400000 - 0xbb6f9000
+[2025-11-18 22:14:36] Loop 1:
+[2025-11-18 22:14:36]   Random Value        : ok
+[2025-11-18 22:29:01]   Compare XOR         : ok
+[2025-11-18 22:29:05]   Compare SUB         : ok
+[2025-11-18 22:29:09]   Compare MUL         : ok
+[2025-11-18 22:29:14]   Compare DIV         : ok
+[2025-11-18 22:29:19]   Compare OR          : ok
+[2025-11-18 22:29:23]   Compare AND         : ok
+[2025-11-18 22:29:28]   Sequential Increment: ok
+[2025-11-18 22:29:31]   Solid Bits          : ok
+[2025-11-18 22:33:25]   Block Sequential    : ok
+[2025-11-18 22:49:44]   Checkerboard        : ok
+[2025-11-18 22:53:38]   Bit Spread          : ok
+[2025-11-18 22:57:43]   Bit Flip            : ok
+[2025-11-18 23:14:03]   Walking Ones        : ok
+[2025-11-18 23:17:46]   Walking Zeroes      : ok
+[2025-11-18 23:21:40]
+[2025-11-18 23:21:40] testing:0x49400000 - 0xbb6f9000
+[2025-11-18 23:21:40] Loop 2:
+[2025-11-18 23:21:40]   Random Value        : ok
+[2025-11-18 23:36:03]   Compare XOR         : ok
+[2025-11-18 23:36:07]   Compare SUB         : ok
+[2025-11-18 23:36:11]   Compare MUL         : ok
+[2025-11-18 23:36:16]   Compare DIV         : ok
+[2025-11-18 23:36:21]   Compare OR          : ok
+[2025-11-18 23:36:25]   Compare AND         : ok
+[2025-11-18 23:36:29]   Sequential Increment: ok
+[2025-11-18 23:36:33]   Solid Bits          : ok
+[2025-11-18 23:40:27]   Block Sequential    : ok
+[2025-11-18 23:56:46]   Checkerboard        : ok
+[2025-11-19 00:00:40]   Bit Spread          : ok
+[2025-11-19 00:04:45]   Bit Flip            : ok
+[2025-11-19 00:21:04]   Walking Ones        : ok
+[2025-11-19 00:24:47]   Walking Zeroes      : ok
+[2025-11-19 00:28:41]
+[2025-11-19 00:28:41] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 00:28:41] Loop 3:
+[2025-11-19 00:28:41]   Random Value        : ok
+[2025-11-19 00:43:05]   Compare XOR         : ok
+[2025-11-19 00:43:09]   Compare SUB         : ok
+[2025-11-19 00:43:13]   Compare MUL         : ok
+[2025-11-19 00:43:18]   Compare DIV         : ok
+[2025-11-19 00:43:23]   Compare OR          : ok
+[2025-11-19 00:43:27]   Compare AND         : ok
+[2025-11-19 00:43:31]   Sequential Increment: ok
+[2025-11-19 00:43:35]   Solid Bits          : ok
+[2025-11-19 00:47:28]   Block Sequential    : ok
+[2025-11-19 01:03:47]   Checkerboard        : ok
+[2025-11-19 01:07:41]   Bit Spread          : ok
+[2025-11-19 01:11:46]   Bit Flip            : ok
+[2025-11-19 01:28:05]   Walking Ones        : ok
+[2025-11-19 01:31:48]   Walking Zeroes      : ok
+[2025-11-19 01:35:42]
+[2025-11-19 01:35:42] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 01:35:42] Loop 4:
+[2025-11-19 01:35:42]   Random Value        : ok
+[2025-11-19 01:50:06]   Compare XOR         : ok
+[2025-11-19 01:50:10]   Compare SUB         : ok
+[2025-11-19 01:50:14]   Compare MUL         : ok
+[2025-11-19 01:50:19]   Compare DIV         : ok
+[2025-11-19 01:50:24]   Compare OR          : ok
+[2025-11-19 01:50:28]   Compare AND         : ok
+[2025-11-19 01:50:32]   Sequential Increment: ok
+[2025-11-19 01:50:36]   Solid Bits          : ok
+[2025-11-19 01:54:29]   Block Sequential    : ok
+[2025-11-19 02:10:48]   Checkerboard        : ok
+[2025-11-19 02:14:42]   Bit Spread          : ok
+[2025-11-19 02:18:47]   Bit Flip            : ok
+[2025-11-19 02:35:06]   Walking Ones        : ok
+[2025-11-19 02:38:49]   Walking Zeroes      : ok
+[2025-11-19 02:42:42]
+[2025-11-19 02:42:42] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 02:42:42] Loop 5:
+[2025-11-19 02:42:42]   Random Value        : ok
+[2025-11-19 02:57:06]   Compare XOR         : ok
+[2025-11-19 02:57:10]   Compare SUB         : ok
+[2025-11-19 02:57:14]   Compare MUL         : ok
+[2025-11-19 02:57:19]   Compare DIV         : ok
+[2025-11-19 02:57:24]   Compare OR          : ok
+[2025-11-19 02:57:28]   Compare AND         : ok
+[2025-11-19 02:57:32]   Sequential Increment: ok
+[2025-11-19 02:57:36]   Solid Bits          : ok
+[2025-11-19 03:01:29]   Block Sequential    : ok
+[2025-11-19 03:17:48]   Checkerboard        : ok
+[2025-11-19 03:21:42]   Bit Spread          : ok
+[2025-11-19 03:25:47]   Bit Flip            : ok
+[2025-11-19 03:42:06]   Walking Ones        : ok
+[2025-11-19 03:45:49]   Walking Zeroes      : ok
+[2025-11-19 03:49:43]
+[2025-11-19 03:49:43] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 03:49:43] Loop 6:
+[2025-11-19 03:49:43]   Random Value        : ok
+[2025-11-19 04:04:06]   Compare XOR         : ok
+[2025-11-19 04:04:10]   Compare SUB         : ok
+[2025-11-19 04:04:15]   Compare MUL         : ok
+[2025-11-19 04:04:19]   Compare DIV         : ok
+[2025-11-19 04:04:24]   Compare OR          : ok
+[2025-11-19 04:04:28]   Compare AND         : ok
+[2025-11-19 04:04:33]   Sequential Increment: ok
+[2025-11-19 04:04:36]   Solid Bits          : ok
+[2025-11-19 04:08:30]   Block Sequential    : ok
+[2025-11-19 04:24:48]   Checkerboard        : ok
+[2025-11-19 04:28:42]   Bit Spread          : ok
+[2025-11-19 04:32:47]   Bit Flip            : ok
+[2025-11-19 04:49:06]   Walking Ones        : ok
+[2025-11-19 04:52:49]   Walking Zeroes      : ok
+[2025-11-19 04:56:43]
+[2025-11-19 04:56:43] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 04:56:43] Loop 7:
+[2025-11-19 04:56:43]   Random Value        : ok
+[2025-11-19 05:11:06]   Compare XOR         : ok
+[2025-11-19 05:11:10]   Compare SUB         : ok
+[2025-11-19 05:11:15]   Compare MUL         : ok
+[2025-11-19 05:11:19]   Compare DIV         : ok
+[2025-11-19 05:11:24]   Compare OR          : ok
+[2025-11-19 05:11:28]   Compare AND         : ok
+[2025-11-19 05:11:33]   Sequential Increment: ok
+[2025-11-19 05:11:36]   Solid Bits          : ok
+[2025-11-19 05:15:30]   Block Sequential    : ok
+[2025-11-19 05:31:48]   Checkerboard        : ok
+[2025-11-19 05:35:42]   Bit Spread          : ok
+[2025-11-19 05:39:47]   Bit Flip            : ok
+[2025-11-19 05:56:05]   Walking Ones        : ok
+[2025-11-19 05:59:48]   Walking Zeroes      : ok
+[2025-11-19 06:03:42]
+[2025-11-19 06:03:42] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 06:03:42] Loop 8:
+[2025-11-19 06:03:42]   Random Value        : ok
+[2025-11-19 06:18:06]   Compare XOR         : ok
+[2025-11-19 06:18:10]   Compare SUB         : ok
+[2025-11-19 06:18:14]   Compare MUL         : ok
+[2025-11-19 06:18:19]   Compare DIV         : ok
+[2025-11-19 06:18:24]   Compare OR          : ok
+[2025-11-19 06:18:28]   Compare AND         : ok
+[2025-11-19 06:18:32]   Sequential Increment: ok
+[2025-11-19 06:18:35]   Solid Bits          : ok
+[2025-11-19 06:22:29]   Block Sequential    : ok
+[2025-11-19 06:38:48]   Checkerboard        : ok
+[2025-11-19 06:42:41]   Bit Spread          : ok
+[2025-11-19 06:46:46]   Bit Flip            : ok
+[2025-11-19 07:03:05]   Walking Ones        : ok
+[2025-11-19 07:06:48]   Walking Zeroes      : ok
+[2025-11-19 07:10:42]
+[2025-11-19 07:10:42] testing:0x49400000 - 0xbb6f9000
+[2025-11-19 07:10:42] Loop 9:
+[2025-11-19 07:10:42]   Random Value        : ok
+[2025-11-19 07:25:05]   Compare XOR         : ok
+[2025-11-19 07:25:09]   Compare SUB         : ok
+[2025-11-19 07:25:14]   Compare MUL         : ok
+[2025-11-19 07:25:18]   Compare DIV         : ok
+[2025-11-19 07:25:23]   Compare OR          : ok
+[2025-11-19 07:25:27]   Compare AND         : ok
+[2025-11-19 07:25:31]   Sequential Increment: ok
+[2025-11-19 07:25:35]   Solid Bits          : ok
+[2025-11-19 07:29:29]   Block Sequential    : ok
+[2025-11-19 07:45:48]   Checkerboard        : ok
+[2025-11-19 07:49:41]   Bit Spread          : ok
+[2025-11-19 07:53:46]   Bit Flip            : ok
+[2025-11-19 08:10:05]   Walking Ones        : ok
+[2025-11-19 08:13:49]   Walking Zeroes      : ok
+[2025-11-19 08:17:43]
+
