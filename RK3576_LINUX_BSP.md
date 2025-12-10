@@ -6,7 +6,7 @@ RK3576 SoC Platform에 우분투 운영체제를 동작 시키는 업무에 관�
 > Rockchip 공식 입장은 Ubuntu 는 지원하지 않음
 
 
-Ubuntu 관련 source (아래 Link에서 다운)
+Ubuntu 관련 source (아래 Link에서 다운)  
 http://cdimage.ubuntu.com/ubuntu-base/releases/22.04/release/ubuntu-base-22.04.5-base-arm64.tar.gz 
 
 관련 설명 자료
