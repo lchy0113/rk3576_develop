@@ -583,4 +583,19 @@ v4l2-ctl -d /dev/video0 \
   --stream-skip=1 \
   --stream-count=1 \
   --stream-to=/data/local/tmp/out_1920x1080_uyvy.yuv
+  
+  
+  
+==============================================================================================================
+
+terminal : 192.168.27.243 : rk3576_dev 
+
+1. work/.../ROCKCHIP_ANDROID15_DEV :
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_DEV
+2. work/.../ROCKCHIP_ANDROID15_DEV :
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_TRM
+3. hdd/.../Linux :
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_TRM
+
+==============================================================================================================
 
