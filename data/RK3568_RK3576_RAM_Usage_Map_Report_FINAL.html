@@ -1,0 +1,448 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RAM Usage Map Report (Android 12.1 vs Android 15)</title>
+
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin:24px; color:#111;}
+h1{font-size:22px; margin:0 0 6px;}
+h2{font-size:16px; margin:22px 0 8px;}
+h3{font-size:14px; margin:16px 0 6px;}
+.small{color:#555; font-size:12px; line-height:1.4;}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+.card{border:1px solid #e5e7eb; border-radius:10px; padding:12px;}
+.kv{display:grid; grid-template-columns:140px 1fr; gap:6px 10px; font-size:13px;}
+.kv div:nth-child(odd){color:#444;}
+.kv div:nth-child(even){font-weight:600;}
+.row{display:grid; grid-template-columns:140px 1fr 90px; gap:10px; align-items:center; margin:8px 0;}
+.barwrap{height:10px; background:#f3f4f6; border-radius:999px; overflow:hidden;}
+.bar{height:10px; background:#111;}
+.label{font-size:13px; color:#444;}
+.val{font-size:13px; text-align:right; font-weight:600;}
+table{border-collapse:collapse; width:100%; font-size:12.5px;}
+th,td{border:1px solid #e5e7eb; padding:6px 8px; text-align:left;}
+th{background:#f9fafb;}
+.note{background:#fff7ed; border:1px solid #fed7aa; padding:10px; border-radius:10px; font-size:12.5px; color:#7c2d12;}
+hr{border:0;border-top:1px solid #e5e7eb;margin:18px 0;}
+</style>
+
+
+
+
+</head>
+<body>
+
+
+
+<section id="summary-cards" style="margin:16px 0 24px 0;">
+  <h2 style="margin:0 0 10px 0;">Kernel / Android OS / Application Usage Summary</h2>
+  <div style="border:1px solid #ccc; padding:12px;">
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left; border-bottom:1px solid #ddd; padding:6px;">Snapshot</th>
+          <th style="text-align:right; border-bottom:1px solid #ddd; padding:6px;">Kernel Used</th>
+          <th style="text-align:right; border-bottom:1px solid #ddd; padding:6px;">Android OS PSS</th>
+          <th style="text-align:right; border-bottom:1px solid #ddd; padding:6px;">App PSS</th>
+          <th style="text-align:right; border-bottom:1px solid #ddd; padding:6px;">Sum RAM usage (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+    <tr>
+      <td>A12 T+5min</td>
+      <td style="text-align:right">158.2 MB</td>
+      <td style="text-align:right">811.3 MB</td>
+      <td style="text-align:right">383.3 MB</td>
+      <td style="text-align:right">1352.8 MB (71.15)</td>
+    </tr>
+    
+    <tr>
+      <td>A12 T+30min</td>
+      <td style="text-align:right">137.5 MB</td>
+      <td style="text-align:right">705.4 MB</td>
+      <td style="text-align:right">398.6 MB</td>
+      <td style="text-align:right">1241.5 MB (65.27)</td>
+    </tr>
+    
+    <tr>
+      <td>A15 T+5min</td>
+      <td style="text-align:right">313.6 MB</td>
+      <td style="text-align:right">919.8 MB</td>
+      <td style="text-align:right">245.0 MB</td>
+      <td style="text-align:right">1478.4 MB (75.7)</td>
+    </tr>
+    
+    <tr>
+      <td>A15 T+30min</td>
+      <td style="text-align:right">313.9 MB</td>
+      <td style="text-align:right">927.6 MB</td>
+      <td style="text-align:right">245.2 MB</td>
+      <td style="text-align:right">1486.7 MB (76.2)</td>
+    </tr>
+    
+      </tbody>
+    </table>
+
+<div style="margin:8px 0 18px 0; font-size:12px; color:#555;">
+Note: 세부 지표(캐시/그래픽/DMA-BUF 등)는 아래 섹션에 정리.
+</div>
+
+    <p style="margin:10px 0 0 0; font-size:12px;">
+      Notes: Kernel Used는 dumpsys meminfo의 "Used RAM(... + kernel)" 값 기준. <br/>
+      Android OS/App PSS는 "Total PSS by process"를 프로세스명 규칙으로 분류하여 합산 .
+      
+    </p>
+  </div>
+</section>
+
+
+<h1>Android Wallpad RAM Usage Map</h1>
+<div class="small">
+대상: 2GB RAM 플랫폼 비교 (Android 12.1 / Android 15, userdebug).<br/>
+측정 시점: 부팅 후 T+5min, T+30min(Idle).<br/>
+핵심 목적: <b>Kernel / Android OS(userspace) / Product App</b> 관점에서 사용량과 <b>회수 가능(캐시)</b> 영역을 함께 보고.
+</div>
+
+<h2>1) 핵심 요약 </h2>
+<div class="note">
+- Android에서 “메모리 사용량” 자체보다, <b>캐시(cached pss, cached kernel)가 얼마나 회수 가능한지</b>가 더 중요함.<br/>
+- 동일한 Total RAM에서도, <b>Kernel(회수 어려움) vs Userspace PSS(조정 가능) vs Cache(회수 가능)</b> 비율로 리스크를 판단하는 게 유효함.
+</div>
+
+<h2>2) 측정 결과</h2>
+<div class="grid">
+  
+    <div class="card">
+      <h3>Android 12.1 / T+5min</h3>
+      
+    <div class="kv">
+      <div>Total RAM</div><div>1901.6 MB</div>
+      <div>Used RAM</div><div>1240.6 MB</div>
+      <div>Used PSS</div><div>1082.4 MB</div>
+      <div>Kernel used</div><div>158.2 MB</div>
+      <div>Reclaimable cache</div><div>542.3 MB <span class="small">(cached pss + cached kernel)</span></div>
+      <div>Lost RAM</div><div>98.3 MB</div>
+      <div>ION</div><div>62.6 MB</div>
+      <div>GPU</div><div>74.6 MB</div>
+      <div>ZRAM</div><div>2.0 MB / swap 8.5 MB (total 950.8 MB)</div>
+    </div>
+    
+      <div style="margin-top:12px">
+    <div class="row">
+      <div class="label">Kernel</div>
+      <div class="barwrap"><div class="bar" style="width:8.3%"></div></div>
+      <div class="val">158.2 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Android (userspace, used pss)</div>
+      <div class="barwrap"><div class="bar" style="width:56.9%"></div></div>
+      <div class="val">1082.4 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Reclaimable cache</div>
+      <div class="barwrap"><div class="bar" style="width:28.5%"></div></div>
+      <div class="val">542.3 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Lost RAM</div>
+      <div class="barwrap"><div class="bar" style="width:5.2%"></div></div>
+      <div class="val">98.3 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Free (unallocated)</div>
+      <div class="barwrap"><div class="bar" style="width:1.4%"></div></div>
+      <div class="val">25.8 MB</div>
+    </div>
+    </div>
+      <div style="margin-top:14px">
+    <table>
+      <thead><tr><th>구분</th><th>합계 (PSS, 캐시 포함)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>Product Apps (com.wallpad.*, com.kdiwin.*)</td><td>352.7 MB</td><td> 제외</td></tr>
+        <tr><td>Android OS userspace (그 외)</td><td>842.0 MB</td><td>zygote/system_server/native daemon/HAL 포함</td></tr>
+        <tr><td>Excluded</td><td>6.1 MB</td><td></td></tr>
+      </tbody>
+    </table>
+    </div>
+      <div style="margin-top:14px">
+        <table>
+          <thead><tr><th>Top PSS Processes (상위 12)</th><th>PSS</th></tr></thead>
+          <tbody>
+          <tr><td>system</td><td>194.9 MB</td></tr>
+<tr><td>com.wallpad.launcher</td><td>127.3 MB</td></tr>
+<tr><td>zygote</td><td>74.7 MB</td></tr>
+<tr><td>com.android.systemui</td><td>41.8 MB</td></tr>
+<tr><td>com.wallpad.service</td><td>38.8 MB</td></tr>
+<tr><td>com.wallpad.heynavien</td><td>38.3 MB</td></tr>
+<tr><td>surfaceflinger</td><td>36.8 MB</td></tr>
+<tr><td>webview_zygote</td><td>32.7 MB</td></tr>
+<tr><td>com.kdiwin.wall</td><td>32.2 MB</td></tr>
+<tr><td>zygote64</td><td>29.9 MB</td></tr>
+<tr><td>com.wallpad.call</td><td>28.5 MB</td></tr>
+<tr><td>com.android.phone</td><td>28.5 MB</td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  
+    <div class="card">
+      <h3>Android 12.1 / T+30min</h3>
+      
+    <div class="kv">
+      <div>Total RAM</div><div>1901.6 MB</div>
+      <div>Used RAM</div><div>1256.3 MB</div>
+      <div>Used PSS</div><div>1118.9 MB</div>
+      <div>Kernel used</div><div>137.5 MB</div>
+      <div>Reclaimable cache</div><div>457.0 MB <span class="small">(cached pss + cached kernel)</span></div>
+      <div>Lost RAM</div><div>94.8 MB</div>
+      <div>ION</div><div>61.6 MB</div>
+      <div>GPU</div><div>74.6 MB</div>
+      <div>ZRAM</div><div>2.0 MB / swap 8.8 MB (total 950.8 MB)</div>
+    </div>
+    
+      <div style="margin-top:12px">
+    <div class="row">
+      <div class="label">Kernel</div>
+      <div class="barwrap"><div class="bar" style="width:7.2%"></div></div>
+      <div class="val">137.5 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Android (userspace, used pss)</div>
+      <div class="barwrap"><div class="bar" style="width:58.8%"></div></div>
+      <div class="val">1118.9 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Reclaimable cache</div>
+      <div class="barwrap"><div class="bar" style="width:24.0%"></div></div>
+      <div class="val">457.0 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Lost RAM</div>
+      <div class="barwrap"><div class="bar" style="width:5.0%"></div></div>
+      <div class="val">94.8 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Free (unallocated)</div>
+      <div class="barwrap"><div class="bar" style="width:5.2%"></div></div>
+      <div class="val">99.1 MB</div>
+    </div>
+    </div>
+      <div style="margin-top:14px">
+    <table>
+      <thead><tr><th>구분</th><th>합계 (PSS, 캐시 포함)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>Product Apps (com.wallpad.*, com.kdiwin.*)</td><td>367.7 MB</td><td> 제외</td></tr>
+        <tr><td>Android OS userspace (그 외)</td><td>736.3 MB</td><td>zygote/system_server/native daemon/HAL 포함</td></tr>
+        <tr><td>Excluded</td><td>7.3 MB</td><td></td></tr>
+      </tbody>
+    </table>
+    </div>
+      <div style="margin-top:14px">
+        <table>
+          <thead><tr><th>Top PSS Processes (상위 12)</th><th>PSS</th></tr></thead>
+          <tbody>
+          <tr><td>system</td><td>203.8 MB</td></tr>
+<tr><td>com.wallpad.launcher</td><td>128.7 MB</td></tr>
+<tr><td>zygote</td><td>75.4 MB</td></tr>
+<tr><td>com.android.systemui</td><td>43.2 MB</td></tr>
+<tr><td>com.wallpad.service</td><td>41.5 MB</td></tr>
+<tr><td>com.wallpad.heynavien</td><td>40.1 MB</td></tr>
+<tr><td>surfaceflinger</td><td>36.8 MB</td></tr>
+<tr><td>com.kdiwin.wall</td><td>34.0 MB</td></tr>
+<tr><td>webview_zygote</td><td>32.9 MB</td></tr>
+<tr><td>zygote64</td><td>31.6 MB</td></tr>
+<tr><td>com.android.phone</td><td>30.0 MB</td></tr>
+<tr><td>com.wallpad.call</td><td>29.9 MB</td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  
+    <div class="card">
+      <h3>Android 15 / T+5min</h3>
+      
+    <div class="kv">
+      <div>Total RAM</div><div>1952.5 MB</div>
+      <div>Used RAM</div><div>1240.0 MB</div>
+      <div>Used PSS</div><div>926.4 MB</div>
+      <div>Kernel used</div><div>313.6 MB</div>
+      <div>Reclaimable cache</div><div>534.5 MB <span class="small">(cached pss + cached kernel)</span></div>
+      <div>Lost RAM</div><div>137.3 MB</div>
+      <div>DMA-BUF</div><div>74.9 MB</div>
+      <div>GPU</div><div>59.0 MB</div>
+      <div>ZRAM</div><div>35.1 MB / swap 90.0 MB (total 976.2 MB)</div>
+    </div>
+    
+      <div style="margin-top:12px">
+    <div class="row">
+      <div class="label">Kernel</div>
+      <div class="barwrap"><div class="bar" style="width:16.1%"></div></div>
+      <div class="val">313.6 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Android (userspace, used pss)</div>
+      <div class="barwrap"><div class="bar" style="width:47.4%"></div></div>
+      <div class="val">926.4 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Reclaimable cache</div>
+      <div class="barwrap"><div class="bar" style="width:27.4%"></div></div>
+      <div class="val">534.5 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Lost RAM</div>
+      <div class="barwrap"><div class="bar" style="width:7.0%"></div></div>
+      <div class="val">137.3 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Free (unallocated)</div>
+      <div class="barwrap"><div class="bar" style="width:4.8%"></div></div>
+      <div class="val">93.9 MB</div>
+    </div>
+    </div>
+      <div style="margin-top:14px">
+    <table>
+      <thead><tr><th>구분</th><th>합계 (PSS, 캐시 포함)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>Product Apps (com.wallpad.*, com.kdiwin.*)</td><td>206.4 MB</td><td> 제외</td></tr>
+        <tr><td>Android OS userspace (그 외)</td><td>958.3 MB</td><td>zygote/system_server/native daemon/HAL 포함</td></tr>
+        <tr><td>Excluded</td><td>5.6 MB</td><td></td></tr>
+      </tbody>
+    </table>
+    </div>
+      <div style="margin-top:14px">
+        <table>
+          <thead><tr><th>Top PSS Processes (상위 12)</th><th>PSS</th></tr></thead>
+          <tbody>
+          <tr><td>system</td><td>169.1 MB</td></tr>
+<tr><td>zygote</td><td>77.2 MB</td></tr>
+<tr><td>com.wallpad.launcher</td><td>59.1 MB</td></tr>
+<tr><td>com.android.systemui</td><td>45.1 MB</td></tr>
+<tr><td>com.android.settings</td><td>39.2 MB</td></tr>
+<tr><td>surfaceflinger</td><td>38.1 MB</td></tr>
+<tr><td>webview_zygote</td><td>35.5 MB</td></tr>
+<tr><td>com.android.permissioncontroller</td><td>32.5 MB</td></tr>
+<tr><td>com.android.providers.media.module</td><td>31.8 MB</td></tr>
+<tr><td>com.wallpad.service</td><td>31.3 MB</td></tr>
+<tr><td>zygote64</td><td>30.1 MB</td></tr>
+<tr><td>com.wallpad.statusbar</td><td>25.5 MB</td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  
+    <div class="card">
+      <h3>Android 15 / T+30min</h3>
+      
+    <div class="kv">
+      <div>Total RAM</div><div>1952.5 MB</div>
+      <div>Used RAM</div><div>1246.8 MB</div>
+      <div>Used PSS</div><div>932.9 MB</div>
+      <div>Kernel used</div><div>313.9 MB</div>
+      <div>Reclaimable cache</div><div>550.9 MB <span class="small">(cached pss + cached kernel)</span></div>
+      <div>Lost RAM</div><div>137.2 MB</div>
+      <div>DMA-BUF</div><div>74.9 MB</div>
+      <div>GPU</div><div>59.0 MB</div>
+      <div>ZRAM</div><div>34.3 MB / swap 84.2 MB (total 976.2 MB)</div>
+    </div>
+    
+      <div style="margin-top:12px">
+    <div class="row">
+      <div class="label">Kernel</div>
+      <div class="barwrap"><div class="bar" style="width:16.1%"></div></div>
+      <div class="val">313.9 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Android (userspace, used pss)</div>
+      <div class="barwrap"><div class="bar" style="width:47.8%"></div></div>
+      <div class="val">932.9 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Reclaimable cache</div>
+      <div class="barwrap"><div class="bar" style="width:28.2%"></div></div>
+      <div class="val">550.9 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Lost RAM</div>
+      <div class="barwrap"><div class="bar" style="width:7.0%"></div></div>
+      <div class="val">137.2 MB</div>
+    </div>
+    
+    <div class="row">
+      <div class="label">Free (unallocated)</div>
+      <div class="barwrap"><div class="bar" style="width:3.3%"></div></div>
+      <div class="val">65.3 MB</div>
+    </div>
+    </div>
+      <div style="margin-top:14px">
+    <table>
+      <thead><tr><th>구분</th><th>합계 (PSS, 캐시 포함)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>Product Apps (com.wallpad.*, com.kdiwin.*)</td><td>206.6 MB</td><td> 제외</td></tr>
+        <tr><td>Android OS userspace (그 외)</td><td>966.1 MB</td><td>zygote/system_server/native daemon/HAL 포함</td></tr>
+        <tr><td>Excluded</td><td>5.6 MB</td><td></td></tr>
+      </tbody>
+    </table>
+    </div>
+      <div style="margin-top:14px">
+        <table>
+          <thead><tr><th>Top PSS Processes (상위 12)</th><th>PSS</th></tr></thead>
+          <tbody>
+          <tr><td>system</td><td>175.4 MB</td></tr>
+<tr><td>zygote</td><td>77.2 MB</td></tr>
+<tr><td>com.wallpad.launcher</td><td>59.1 MB</td></tr>
+<tr><td>com.android.systemui</td><td>45.1 MB</td></tr>
+<tr><td>com.android.settings</td><td>39.3 MB</td></tr>
+<tr><td>surfaceflinger</td><td>38.1 MB</td></tr>
+<tr><td>webview_zygote</td><td>35.5 MB</td></tr>
+<tr><td>com.android.permissioncontroller</td><td>33.2 MB</td></tr>
+<tr><td>com.android.providers.media.module</td><td>31.8 MB</td></tr>
+<tr><td>com.wallpad.service</td><td>31.5 MB</td></tr>
+<tr><td>zygote64</td><td>30.1 MB</td></tr>
+<tr><td>com.wallpad.statusbar</td><td>25.5 MB</td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+</div>
+
+<h2>3) 산출 기준</h2>
+<ul class="small">
+  <li><b>Kernel used</b>: <code>dumpsys meminfo</code> 요약의 <code>Used RAM = (used pss + kernel)</code>에서 <code>kernel</code> 값.</li>
+  <li><b>Android OS(userspace, used pss)</b>: 동일 요약의 <code>used pss</code> 값 (프로세스/서비스 전체의 PSS 합에서 캐시 제외된 “사용중” 관점).</li>
+  <li><b>Reclaimable cache</b>: <code>cached pss + cached kernel</code> (회수 가능한 페이지 캐시/커널 캐시 관점).</li>
+  <li><b>ION</b>: Android 12.1은 요약에 <code>ION</code>으로 표기. Android 15는 <code>DMA-BUF</code>로 표기되어 <b>ION 대신 DMA-BUF 값으로 대응</b>.</li>
+  <li><b>Product Apps PSS</b>: <code>Total PSS by process</code>에서 패키지 prefix 기준 합산 (<code>com.wallpad.*</code>, <code>com.kdiwin.*</code>). 이 값은 <b>캐시 포함</b>일 수 있음.</li>
+</ul>
+
+<hr/>
+<div class="small">Generated: 2026-01-09 (KST)</div>
+</body>
+</html>

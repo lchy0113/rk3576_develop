@@ -192,3 +192,15 @@ Byte Lane 1
   DQ 신호가 Vref보다 낮으면 → ‘0’  
   으로 판별하도록 정의된 논리 판단 기준점  
  - ttot10/ttot16 : Training 수행 로그에서 발생된 문자열이고, Training 절차가 진행되었음을 나타내는 문자열.  
+
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
+# RK3568 vs RK3576 RAM Usage Map Report 
+
+![](./data/RK3568_RK3576_RAM_Usage_Map_Report_FINAL.html)
+
+

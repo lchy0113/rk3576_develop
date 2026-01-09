@@ -584,8 +584,72 @@ v4l2-ctl -d /dev/video0 \
   --stream-count=1 \
   --stream-to=/data/local/tmp/out_1920x1080_uyvy.yuv
   
+=====
+
+lchy0113@hsdev:~/Private/test_yocto/poky$  ls -alh 
+total 24K
+drwxrwxr-x 3 lchy0113 lchy0113 4.0K Dec 10 18:32 .
+drwxrwxr-x 3 lchy0113 lchy0113 4.0K Dec 10 18:31 ..
+drwxrwxr-x 6 lchy0113 lchy0113 4.0K Dec 10 18:32 .git
+-rw-rw-r-- 1 lchy0113 lchy0113  769 Dec 10 18:32 .gitignore
+-rw-rw-r-- 1 lchy0113 lchy0113 5.2K Dec 10 18:32 README
+lchy0113@hsdev:~/Private/test_yocto/poky$ tig ^C
+lchy0113@hsdev:~/Private/test_yocto/poky$ git branch  -av 
+* master                        485d9c126a README: Fix typo
+  remotes/origin/HEAD           -> origin/master
+  remotes/origin/bernard        c006044611 documentation/poky-ref-manual/extendpoky.xml: removed pokylinux.org link
+  remotes/origin/blinky         1fc111d16b db: fix SRC_URI
+  remotes/origin/clyde          b9065372f4 db: fix SRC_URI
+  remotes/origin/daisy          6717d19848 mklibs-native: update SRC_URI
+  remotes/origin/danny          70ca9ff642 binutils: fix build with recent texinfo (5.1)
+  remotes/origin/denzil         6caa7d1d6c bitbake: command: Fix getCmdLineAction bugs
+  remotes/origin/dizzy          58863ad092 bitbake: bitbake-user-manual: Fixed porno hack for hello world example
+  remotes/origin/dora           8e9e7e8def ref-manual: Corrected the "package_rpm.bbclass" section.
+  remotes/origin/dunfell        63d05fc061 build-appliance-image: Update to dunfell head revision
+  remotes/origin/dylan          0fcfdc4d54 kernel.bbclass: Complete fix for modules symlink
+  remotes/origin/edison         8886aee5b9 documentation: Updated Manual Revision Tables for 1.1.2
+  remotes/origin/elroy          a340e3c7dc libice-native: update to 1.0.4
+  remotes/origin/fido           8763191981 bitbake: lib/bs4: Fix imports from html5lib >= 0.9999999/1.0b8
+  remotes/origin/gatesgarth     13143ea85a conf.py/poky.yaml: Move version information to poky.yaml and read in conf.py
+  remotes/origin/green          afd0958d27 Green 3.3.1 Release
+  remotes/origin/hardknott      1cefabe0f0 conf.py/poky.yaml: Move version information to poky.yaml and read in conf.py
+  remotes/origin/honister       fd00d74f47 yocto-bsps: update to v5.10.113
+  remotes/origin/jethro         7e613928fe documentation: Updated title page notes
+  remotes/origin/kirkstone      40701465df systemd-bootchart: update SRC_URI branch
+  remotes/origin/krogoth        73cc31c11a documentation: Updated title page notes
+  remotes/origin/langdale       3e95f268ce build-appliance-image: Update to langdale head revision
+  remotes/origin/laverne        0d3591db9c x11-common: Fix unusable serial console
+  remotes/origin/master         485d9c126a README: Fix typo
+  remotes/origin/mickledore     7235399a86 build-appliance-image: Update to mickledore head revision
+  remotes/origin/morty          e56be3cee5 bitbake: bitbake-user-manual: Added "usehead" parameter.
+  remotes/origin/nanbield       7b8aa378d0 build-appliance-image: Update to nanbield head revision
+  remotes/origin/pinky          0a6bec9469 Pinky 3.1.2 Release
+  remotes/origin/purple         b29bd836ad runqemu: Fix path for i586 cross binaries
+  remotes/origin/pyro           69d985c0c3 bitbake: fetch2: Change git fetcher not to destroy old references
+  remotes/origin/rocko          c83e52cef0 bitbake: tests/fetch: Resolve fetch error in bitbake-selftest
+  remotes/origin/scarthgap      9497778a4d curl: Ensure 'CURL_CA_BUNDLE' from host env is indeed respected
+  remotes/origin/styhead        f57dc43765 Fix dead links that use the DISTRO macro
+  remotes/origin/sumo           b39f4146de bitbake: fetch2: Change git fetcher not to destroy old references
+  remotes/origin/thud           6c5a847a45 bitbake: fetch/git: Handle github dropping git:// support
+  remotes/origin/walnascar      d0b46a6624 build-appliance-image: Update to walnascar head revision
+  remotes/origin/walnascar-next 167f714a72 linux/cve-exclusion: Execute the script after changing to the new data source
+  remotes/origin/warrior        d4b57c68b2 bitbake: fetch/git: Handle github dropping git:// support
+  remotes/origin/zeus           daf096e295 bitbake: fetch/git: Handle github dropping git:// support
   
   
+  
+=====
+apt mirror update
+```
+cat > /etc/apt/sources.list << 'EOF'
+deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+EOF
+```
+
+
 ==============================================================================================================
 
 terminal : 192.168.27.243 : rk3576_dev 
@@ -595,7 +659,7 @@ terminal : 192.168.27.243 : rk3576_dev
 2. work/.../ROCKCHIP_ANDROID15_DEV :
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_TRM
 3. hdd/.../Linux :
- clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_TRM
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  Linux
 
 ==============================================================================================================
 
