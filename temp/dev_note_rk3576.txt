@@ -652,11 +652,14 @@ EOF
 
 ==============================================================================================================
 
-terminal : 192.168.27.243 : rk3576_dev 
+terminal : 192.168.27.243 : 
+tmux new -s rk3576_dev
+ ssh-agent > ~/.ssh-agent.sh ; source  ~/.ssh-agent.sh ; ssh-add ~/.ssh/lchyq113\@kdiwin.com
+ ssh -p 9029 lchy0113@localhost
 
-1. work/.../ROCKCHIP_ANDROID15_DEV :
+1. cd /home/lchy0113/proj/rockchip/Android/ROCKCHIP_ANDROID15_DEV 
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_DEV
-2. work/.../ROCKCHIP_ANDROID15_DEV :
+2. cd /home/lchy0113/proj/rockchip/Android/ROCKCHIP_ANDROID15_HNNOVA 
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RK3576_TRM
 3. hdd/.../Linux :
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  Linux
