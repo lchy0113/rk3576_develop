@@ -249,6 +249,18 @@ output/
 
 빌드 실패 시 가장 먼저 확인해야 하는 폴더.
 
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
+# Tool Chain
+
+```
+prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+```
+
 
 <br/>
 <br/>
@@ -301,3 +313,52 @@ lchy0113@7a6a8fd63289:~/proj/rockchip/Linux/BSP/rk3576_linux6.1_beta_v0.1.0_2024
 
 
 
+
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
+# Burning Mode 
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## Linux Flashing Instructions
+
+```bash
+sudo ./upgrade_tool ul rockdev/MiniLoaderAll.bin -noreset
+sudo ./upgrade_tool di -p rockdev/parameter.txt
+sudo ./upgrade_tool di -u rockdev/uboot.img
+sudo ./upgrade_tool di -trust rockdev/trust.img ##For new chips, trust has been merged into the uboot partition
+sudo ./upgrade_tool di -misc rockdev/misc.img
+sudo ./upgrade_tool di -b rockdev/boot.img
+sudo ./upgrade_tool di -recovery rockdev/recovery.img
+sudo ./upgrade_tool di -oem rockdev/oem.img
+sudo ./upgrade_tool di -rootfs rocdev/rootfs.img
+sudo ./upgrade_tool di -userdata rockdev/userdata.img
+sudo ./upgrade_tool rd
+```
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## System Partition Intrduction
+
+ - default patrion description
+
+| Number | Start (sector) | End (sector) | Size  | Name     | Feature                                  |
+|-------:|---------------:|-------------:|------:|---------:|-----------------------------------------:|
+| 1      | 16384          | 24575        | 4M    | uboot    | compiled by uboot                        |
+| 2      | 24576          | 32767        | 4M    | misc     | used by recovery                         |
+| 3      | 32768          | 163839       | 64M   | boot     | compiled by kernel                       |
+| 4      | 163840         | 294911       | 32M   | recovery | compiled by recovery                     |
+| 5      | 294912         | 360447       | 32M   | backup   | reserved, temporarily unused             |
+| 6      | 360448         | 12943359     | 6144M | rootfs   | compiled by Buildroot or Yocto           |
+| 7      | 12943360       | 13205503     | 128M  | oem      | used by manufacturers to store their App | 
+| 8      | 13205504       | 61120478     | 22.8G | userdata | used for App to temporarily              |
