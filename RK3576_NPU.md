@@ -96,7 +96,103 @@ Camera → MIPI CSI → ISP → RGA / Zero-copy → NPU → 결과 → App
 <br/>
 <hr>
 
+# RKLLM
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## RKNPU 를 사용방법  
+ 1. RKLLM-Toolkit을 PC에 설치
+ 2. HuggingFace LLM → RKLLM format (.rkllm) 변환
+ 3. RKLLM Runtime (C API)로 추론 실행
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## RKNPU 의 종류 (RKNN vs RKLLM)
+ RKNPU는 2가지 라인이있음. 
+
+ - RKNN (일반 AI, YOLO 등) 
+ 1. rknn-toolkit 설치 (https://github.com/airockchip/rknn-toolkit2)
+ 2. ONNX/TensorFlow 모델 → .rknn 변환
+ 3. rknn-runtime API로 추론
+   
+   * Rockchip Neural Network : Rockchip NPU에서 실행되는 일반 AI 모델 프레임워크
+   * 거의 NPU 중심
+   * ONNX : 학습된 모델을 교환하기 위한 표준 포멧(다양한 프레임워크 간 모델 교환용 표준 포멧)
+   * TensorFlow : AI모델을 만들고 학습하는 프레임워크(구글이 만든 딥러닝 프레임워크)
+
+ - RKLLM (LLM전용)
+ 1. RKLLM-Toolkit 설치 (https://github.com/airockchip/rknn-llm.git)
+ 2. HuggingFace LLM → .rkllm 변환
+ 3. rkllm-runtime API로 추론
+
+   * Rockchip Large Language Model : Rockchip에서 LLM을 실행하기 위한 전용 프레임워크
+   * NPU만 사용하지 않음. 
+   * CPU + NPU + 메모리 혼합 구조. 
+	
+
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
 # Deploy MODEL
+
+ - Host
+```
+lchy0113@hsdev:~/develop/Rockchip/RKLLM/models$ ssh -p 9032 lchy0113@localhost 
+lchy0113@localhost's password: 
+Last login: Thu Mar 26 16:36:40 2026 from 172.22.0.1
+lchy0113@6f67c01f2936:~$ ls
+bin  Desktop  develop  Documents  Downloads  gitconfig  hdd  Music  Pictures  platform  Private  Public  snap  src  Templates  Videos  work
+lchy0113@6f67c01f2936:~$ 
+lchy0113@6f67c01f2936:~$ conda activate rkllm
+
+EnvironmentNameNotFound: Could not find conda environment: rkllm
+You can list all discoverable environments with `conda info --envs`.
+
+
+lchy0113@6f67c01f2936:~$ conda info --envs
+
+# conda environments:
+#
+# * -> active
+# + -> frozen
+base                     /opt/miniforge3
+RKLLM-Toolkit        *   /opt/miniforge3/envs/RKLLM-Toolkit
+
+lchy0113@6f67c01f2936:~$ conda activate RKLLM-Toolkit
+(RKLLM-Toolkit) lchy0113@6f67c01f2936:~$ 
+
+```
+
+```
+# Install RKLLM-Toolkit, such as rkllm toolkit-1.2.3
+pip3 install 
+./rkllm-toolkit/packages/rkllm_toolkit-1.2.3-cp312-cp312-linux_x86_64.whl
+./rkllm-toolkit/packages/rkllm_toolkit-1.2.3-cp39-cp39-linux_x86_64.whl
+./rkllm-toolkit/packages/rkllm_toolkit-1.2.3-cp310-cp310-linux_x86_64.whl
+./rkllm-toolkit/packages/rkllm_toolkit-1.2.3-cp311-cp311-linux_x86_64.whl
+
+```
+
+ - Device
+```
+rkllm_env-develop.env 
+# Toolchain for building 
+
+# for rkllm
+export TOOLCHAIN_ROOT=/home/lchy0113/develop/Rockchip/RKLLM/TOOLCHAIN/gcc-arm-11.2-2022.02-x86_64-aarch64-none-linux-gnu
+export GCC_COMPILER_PATH=${TOOLCHAIN_ROOT}/bin/aarch64-none-linux-gnu
+export PATH=${TOOLCHAIN_ROOT}/bin:$PATH
+
+```
 
 <br/>
 <br/>
