@@ -90,6 +90,47 @@ Camera → MIPI CSI → ISP → RGA / Zero-copy → NPU → 결과 → App
  - yolov5_rknn_demo
  - object_detection_demo 등
 
+<br/>
+<br/>
+<br/>
+<br/>
+<hr>
+
+# Deploy MODEL
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## QWEN 
+
+📌 RKLLM 실행 환경 메모 (Qwen2.5-1.5B)
+1. 실행 환경
+경로: ~/rkllm
+모델: Qwen2.5-1.5B-Instruct.rkllm
+실행 바이너리: llm_demo
+플랫폼: RK3576 Debian
+
+✔️ 정상 실행 명령
+LD_LIBRARY_PATH=/home/linaro/rkllm/lib/ \
+./llm_demo Qwen2.5-1.5B-Instruct.rkllm 1024 2048
+
+
+5. 파라미터 의미 (확인 필요)
+./llm_demo <model> <param1> <param2>
+
+현재 사용값:
+
+1024 2048
+
+⚠️ 주의
+
+정확한 의미는 현재 코드/SDK 기준으로 명확히 확인되지 않음
+일반적으로:
+param1: input token length 또는 prompt length
+param2: max output length 또는 context 설정
+👉 (추측 아님: 확정 불가 상태 → 코드 확인 필요)
 
 <br/>
 <br/>
