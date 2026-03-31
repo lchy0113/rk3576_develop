@@ -96,7 +96,42 @@ Camera → MIPI CSI → ISP → RGA / Zero-copy → NPU → 결과 → App
 <br/>
 <hr>
 
-# RKLLM
+# RK NPU
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## Develop environment
+
+ - dev-rkllm Docker 구성
+ - docker 내 Minoforge3를 통해 RKNN, RKLLM 개발 환경 구성
+
+```
+Miniforge3
+ ├── envs/RKLLM-Toolkit
+ └── envs/RKNN-Toolkit2
+```
+
+```
+conda create -n RKNN-Toolkit2 python=3.10 -y
+conda activate RKNN-Toolkit2
+python -m pip install --upgrade pip
+python -m pip install /home/lchy0113/develop/Rockchip/RKLLM/airockchip/rknn-toolkit2/rknn-toolkit2/packages/x86_64/rknn_toolkit2-2.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+```
+
+```
+conda env list
+
+# conda environments:
+#
+# * -> active
+# + -> frozen
+RKNN-Toolkit2            /home/lchy0113/.conda/envs/RKNN-Toolkit2
+base                     /opt/miniforge3
+RKLLM-Toolkit        *   /opt/miniforge3/envs/RKLLM-Toolkit
+```
 
 <br/>
 <br/>
