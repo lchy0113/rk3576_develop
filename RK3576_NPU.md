@@ -169,8 +169,31 @@ RKLLM-Toolkit        *   /opt/miniforge3/envs/RKLLM-Toolkit
    * Rockchip Large Language Model : Rockchip에서 LLM을 실행하기 위한 전용 프레임워크
    * NPU만 사용하지 않음. 
    * CPU + NPU + 메모리 혼합 구조. 
-	
 
+<br/>
+<br/>
+<br/>
+<hr>
+
+## rkllm_api
+
+<br/>
+<br/>
+<hr>
+
+### data_quant.json
+
+ data_quant.json 파일은 RKLLM(예: DeepSeek-R1-Distill-Qwen-1.5B 등) 모델을 양자화(quantization)   
+ 할때 사용하는 "양자화 보정(calibation) 데이터"를 담고 있는 파일  
+
+ 주요 내용:
+   - 역할 : 모델을 INT8 등 저정밀도로 변환할때, 원본 FP16(또는 FP32)모델의 출력 분포를  
+   대표하는 입력/출력 데이터를 저장.  
+   - 생성 방법 : 일반적으로 FP16 모델로 여러 입력(예:텍스트 프롬프트 등)을 추론하여,  
+   내부 텐서의 통계깞(최대/최소, 평균 등) 을 수집해 data_quant.json에 기록.  
+   - 사용 위치 : export_rkllm.py 등 양자화 변환 스크립트에서 이 파일을 읽어서,   
+   실제 양자화 변환 시 정밀도 손신을 최소화하도록 보정한다.  
+  
 <br/>
 <br/>
 <br/>
@@ -318,4 +341,151 @@ Tensor 구성
 | **3차원 텐서**          | 3       | 28×28×1       | 흑백 이미지           |
 | **4차원 텐서**          | 4       | 1×224×224×3   | 컬러 이미지(batch 포함) |
 | **N차원 텐서**          | N       | …             | 딥러닝 모든 데이터 표현    |
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## Weight 와 Activation 
+
+ - Weight (가중치): 모델이 학습하면서 얻은 **고정된 파라미터 값**
+```
+y = w1 * x1 + w2 * x2 +b 
+```
+   * w1, w2 -> weight
+   * b -> bias
+
+
+ - activation (활성값) : 입력이 모델을 통과하면서 중간 계산으로 생성되는 값
+```
+입력 -> [Layer1] -> [Layer2] -> 출력
+```
+
+   * Layer 1 출력 = activation
+   * Layer 2 입력 = activation
+   
+  
+LLM 기준으로 보면,   
+ Weight  
+  - 수십억 개 존재(2B = 20억 개)
+  - Transformer 내부의 모든 데이터
+  - 모델 크기를 결정함.  
+  
+ Activation  
+  - 토근이 지나가면서 생성됨  
+  - Attention, FFN 등 모든 레이어에서 발생 
+  - 메모리 사용량에 큰 영향  
+  
+  
+  양자화 관점에서 차이  
+  - Weight Quantization
+    * 모델 파일 크기 줄임.
+    * 예: FP32 -> INT8/INT4
+    * 영향: 저장 용량 + 연산 속소
+
+  - Activation Quantization 
+    * 실행 시 메모리 줄임 
+    * 예: FP16 -> INT8
+    * 영향: 런타임 메모리 + NPU 사용률  
+  
+  
+ W8A8 / W4A16 의미
+
+| 표기  | 의미                          |
+| ----- | ----------------------------- |
+| W8A8  | weight=8bit, activation=8bit  |
+| W4A16 | weight=4bit, activation=16bit |
+
+<br/>
+<br/>
+<br/>
+<hr>
+
+## Token(토큰)
+
+ 문장을 모델이 처리할 수 있도록 쪼갠 최소 단위. 
+
+ 예시)
+```
+ 문장 : I love ChatGPT
+```
+ 
+ 토큰화 결과 :
+```
+["I", " love", " Chat", "GPT"]
+```
+
+ 숫자로 변환  
+> 토큰은 결국 ID로 변환  
+
+```
+"I" -> 123
+" love" -> 456
+```
+
+<br/>
+<br/>
+<hr>
+
+### 전체 흐름
+
+```
+문장 -> Token -> Token ID -> Embdding -> Transformer -> 출력
+```
+
+<br/>
+<br/>
+<hr>
+
+### Weight / Activation 흐름
+
+<br/>
+<hr>
+
+#### Step1. Token -> Embedding
+
+```
+token_id -> embedding vector (예: 2048차원)
+```
+ - embedding matrix = Weight  
+ - 결과벡터 : Activation
+
+<br/>
+<hr>
+
+#### Step2. Transformer Layer (반복)
+
+```
+Activation_in * Weight -> Activation_out 
+```
+
+<br/>
+<hr>
+
+#### Step3. Attention 계산
+
+
+<br/>
+<hr>
+
+#### Step4. FFN (Feed Forward)
+
+
+<br/>
+<br/>
+<hr>
+
+### 2B 모델 기준으로 보면
+
+ - Weight 
+   * 약 20억 개 
+   * 모델 전체에 고정 
+   * 파일로 존재
+   * "뇌 구조"
+
+ - Activation
+   * 토큰이 들어올 때마다 생성
+   * 레이어마다 계속 생성/소멸
+
 
