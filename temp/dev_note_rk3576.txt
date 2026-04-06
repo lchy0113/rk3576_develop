@@ -654,8 +654,10 @@ EOF
 
 terminal : 192.168.27.243 : 
 tmux new -s rk3576_dev
+docker-compose up -d android15_develop
+ssh -p 9029 lchy0113@localhost
+
  ssh-agent > ~/.ssh-agent.sh ; source  ~/.ssh-agent.sh ; ssh-add ~/.ssh/lchyq113\@kdiwin.com
- ssh -p 9029 lchy0113@localhost
 
 1. cd /home/lchy0113/platform/LINUX/rk3566_rk3568_linux6.1_release_v1.3.0_20251220_260112
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RK3568 LINUX SDK"
@@ -666,3 +668,12 @@ tmux new -s rk3576_dev
 
 ==============================================================================================================
 
+terminal : 192.168.27.243 : 
+tmux new -s dev_rkllm
+docker-compose up -d rkllm_develop
+ssh -p 9032 lchy0113@localhost
+
+ ssh-agent > ~/.ssh-agent.sh ; source  ~/.ssh-agent.sh ; ssh-add ~/.ssh/lchyq113\@kdiwin.com
+ 
+1. 
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  RKLLM
