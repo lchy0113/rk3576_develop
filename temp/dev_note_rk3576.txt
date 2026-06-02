@@ -662,6 +662,11 @@ ssh -p 9029 lchy0113@localhost
 1. cd /home/lchy0113/platform/LINUX/rk_linux_platform
  clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RK3576 LINUX SDK"
  
+2. cd /home/lchy0113/work/Rockchip/ROCKCHIP_ANDROID15_rkr3
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RK3576 ANDROID RKR3"
+
+3. cd /home/lchy0113/develop/Rockchip/RKAI/airockchip
+ clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RKAI" 
 ==============================================================================================================
 
 terminal : 192.168.27.243 : 
