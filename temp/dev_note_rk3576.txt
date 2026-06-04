@@ -651,6 +651,40 @@ EOF
 
 
 ==============================================================================================================
+====
+- Session3 : rk3576_dev
+  * docker compose up -d android15_develop 을 /home/lchy0113/Private/github/dockerfile 디렉토리에서 실행하여 android15_develop Docker Container 를 실행.
+
+- rk3568_v_dev Session의 Windows 구성은 아래와 같음
+  * rk_linux_platform
+  * ROCKCHIP_ANDROID15_rkr3
+  * airockchip
+  
+- 각 Windows의 Plane 구성은 아래와 같음. 
+  * Plane1 : android15_develop Docker Container 접속 (ssh -p 9029 lchy0113@localhost). ID:lchy0113 PW:lchy0113
+  * Plane2 : bpytop 명령어 실행(bpytop)
+  * Plane3 & Plane4 : 각 Windows 에 해당하는 디렉토리로 이동 
+    Windows1 : cd /home/lchy0113/platform/LINUX/rk_linux_platform
+    Windows2 : cd /home/lchy0113/work/Rockchip/ROCKCHIP_ANDROID15_rkr3
+    Windows3 : cd /home/lchy0113/develop/Rockchip/RKAI/airockchip
+  * Plane5 : 각 Windows에 대한 작업 내용을 아래 명령어로 출력
+    Windows1 : clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RK3576 LINUX SDK"
+    Windows2 : clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RK3576 ANDROID RKR3"
+    Windows3 : clear ; jfiglol -a -f=1 -t ~/Private/github/figlet-fonts/ANSI\ Regular.flf  "RKAI" 
+  
+ 
++---------+---------------------------+
+|Plane1   | Plane3                    |
+|         |                           |
+|         |                           |
+|         |                           |
++---------+----------------+----------+
+|Plane2   | Plane4         | Plane5   |
+|80x24    |                | 80x24    |
+|bpytop   |                |          |
++---------+----------------+----------+
+
+====
 
 terminal : 192.168.27.243 : 
 tmux new -s rk3576_dev
