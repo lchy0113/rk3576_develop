@@ -649,6 +649,16 @@ deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-fr
 EOF
 ```
 
+====
+                                                                        
+
+lchy0113@7fad183606b9:~/work/Rockchip/ROCKCHIP_ANDROID15_rkr3$ repo init -u ssh://git@git.kdiwin.com:7999/hnnov/nova-manifests -m target/rk3576_v_demo.xml
+
+lchy0113@7fad183606b9:~/work/Rockchip/ROCKCHIP_ANDROID15_rkr3$ source build/envsetup.sh 
+                                                                      
+lchy0113@7fad183606b9:~/work/Rockchip/ROCKCHIP_ANDROID15_rkr3$ lunch snp7205b_som15-ap4a-userdebugq                                                               
+                                                                                                    
+
 
 ==============================================================================================================
 ====
